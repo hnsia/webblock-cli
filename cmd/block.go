@@ -18,7 +18,9 @@ var blockCmd = &cobra.Command{
 		fmt.Println("Block certain URLs in /etc/hosts")
 		fmt.Println("Or where the users configured!")
 		hostsfile, _ := cmd.Flags().GetString("hosts-file")
+		sites, _ := cmd.Flags().GetStringSlice("sites")
 		fmt.Println(hostsfile)
+		fmt.Println(sites)
 	},
 }
 
@@ -29,7 +31,8 @@ func init() {
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	blockCmd.PersistentFlags().String("hosts-file", "/etc/hosts", "A custom hostfile path other than /etc/hosts")
+	blockCmd.PersistentFlags().StringP("hosts-file", "f", "/etc/hosts", "a custom hostfile path other than /etc/hosts")
+	blockCmd.PersistentFlags().StringSliceP("sites", "s", []string{}, "sites to block")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
