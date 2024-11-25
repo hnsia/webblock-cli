@@ -6,7 +6,9 @@ package cmd
 import (
 	"fmt"
 
+	block "github.com/hnsia/webblock-cli/pkg"
 	"github.com/spf13/cobra"
+	"github.com/txn2/txeh"
 )
 
 // blockCmd represents the block command
@@ -17,10 +19,13 @@ var blockCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Block certain URLs in /etc/hosts")
 		fmt.Println("Or where the users configured!")
-		hostsfile, _ := cmd.Flags().GetString("hosts-file")
+		// hostsfile, _ := cmd.Flags().GetString("hosts-file")
 		sites, _ := cmd.Flags().GetStringSlice("sites")
-		fmt.Println(hostsfile)
-		fmt.Println(sites)
+		hosts, err := txeh.NewHostsDefault()
+		if err != nil {
+			panic(err)
+		}
+		block.BlockSites(hosts, sites)
 	},
 }
 

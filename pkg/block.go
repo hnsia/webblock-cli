@@ -41,5 +41,8 @@ func blockSite(hosts *txeh.Hosts, site string) {
 	// target := viper.GetString("app.blockRoute")
 	target := "0.0.0.0"
 	hosts.AddHost(target, site)
-	hosts.Save()
+	err := hosts.Save()
+	if err != nil {
+		fmt.Printf("Something went wrong trying to block the site. %s\n", err)
+	}
 }
