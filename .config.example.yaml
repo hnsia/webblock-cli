@@ -1,0 +1,5 @@
+hostsfile: "/etc/hosts"
+sites:
+  - cnn.com
+  - yahoo.com
+  - example.com

@@ -6,6 +6,7 @@ package cmd
 import (
 	block "github.com/hnsia/webblock-cli/pkg"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"github.com/txn2/txeh"
 )
 
@@ -19,8 +20,10 @@ var unblockCmd = &cobra.Command{
 		if err != nil {
 			panic(err)
 		}
-		sites, _ := cmd.Flags().GetStringSlice("sites")
-		block.CleanBlocks(hosts, sites)
+		// sites, _ := cmd.Flags().GetStringSlice("sites")
+		// block.CleanBlocks(hosts, sites)
+		viperSites := viper.GetStringSlice("sites")
+		block.CleanBlocks(hosts, viperSites)
 	},
 }
 
@@ -36,6 +39,9 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// unblockCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	unblockCmd.PersistentFlags().StringP("hosts-file", "f", "/etc/hosts", "a custom hostfile path other than /etc/hosts")
 	unblockCmd.PersistentFlags().StringSliceP("sites", "s", []string{}, "sites to unblock")
 	unblockCmd.MarkFlagRequired("sites")
+	viper.BindPFlag("sites", unblockCmd.PersistentFlags().Lookup("sites"))
+	viper.BindPFlag("hostsfile", unblockCmd.PersistentFlags().Lookup("hostsfile"))
 }

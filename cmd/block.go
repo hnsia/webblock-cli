@@ -8,6 +8,7 @@ import (
 
 	block "github.com/hnsia/webblock-cli/pkg"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"github.com/txn2/txeh"
 )
 
@@ -19,13 +20,16 @@ var blockCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Block certain URLs in /etc/hosts")
 		fmt.Println("Or where the users configured!")
-		// hostsfile, _ := cmd.Flags().GetString("hosts-file")
-		sites, _ := cmd.Flags().GetStringSlice("sites")
 		hosts, err := txeh.NewHostsDefault()
 		if err != nil {
 			panic(err)
 		}
-		block.BlockSites(hosts, sites)
+		// hostsfile, _ := cmd.Flags().GetString("hosts-file")
+		// sites, _ := cmd.Flags().GetStringSlice("sites")
+		// block.BlockSites(hosts, sites)
+		viperSites := viper.GetStringSlice("sites")
+
+		block.BlockSites(hosts, viperSites)
 	},
 }
 
@@ -38,6 +42,8 @@ func init() {
 	// and all subcommands, e.g.:
 	blockCmd.PersistentFlags().StringP("hosts-file", "f", "/etc/hosts", "a custom hostfile path other than /etc/hosts")
 	blockCmd.PersistentFlags().StringSliceP("sites", "s", []string{}, "sites to block")
+	viper.BindPFlag("hostsfile", blockCmd.PersistentFlags().Lookup("hostsfile"))
+	viper.BindPFlag("sites", blockCmd.PersistentFlags().Lookup("sites"))
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
