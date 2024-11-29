@@ -7,6 +7,7 @@ import (
 	"fmt"
 
 	block "github.com/hnsia/webblock-cli/pkg"
+	"github.com/hnsia/webblock-cli/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/txn2/txeh"
@@ -28,7 +29,8 @@ var blockCmd = &cobra.Command{
 		// sites, _ := cmd.Flags().GetStringSlice("sites")
 		// block.BlockSites(hosts, sites)
 		viperSites := viper.GetStringSlice("sites")
-
+		viperSites = utils.AddWww(viperSites)
+		fmt.Println(viperSites)
 		block.BlockSites(hosts, viperSites)
 	},
 }

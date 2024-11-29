@@ -4,7 +4,10 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
+
 	block "github.com/hnsia/webblock-cli/pkg"
+	"github.com/hnsia/webblock-cli/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/txn2/txeh"
@@ -23,6 +26,8 @@ var unblockCmd = &cobra.Command{
 		// sites, _ := cmd.Flags().GetStringSlice("sites")
 		// block.CleanBlocks(hosts, sites)
 		viperSites := viper.GetStringSlice("sites")
+		viperSites = utils.AddWww(viperSites)
+		fmt.Println(viperSites)
 		block.CleanBlocks(hosts, viperSites)
 	},
 }
