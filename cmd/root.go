@@ -53,6 +53,10 @@ func initConfig() {
 	} else {
 		// Find home directory.
 		home, err := os.UserHomeDir()
+		if home == "/root" {
+			fmt.Println("You are using root privileges, please pass in custom config file path as a flag.")
+		}
+		fmt.Println(home)
 		cobra.CheckErr(err)
 
 		// Search config in home directory with name ".webblock-cli" (without extension).
