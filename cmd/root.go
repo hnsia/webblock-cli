@@ -38,7 +38,7 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is /.webblock-cli.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is /.config.example.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
@@ -51,18 +51,28 @@ func initConfig() {
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
 	} else {
-		// Find home directory.
-		home, err := os.UserHomeDir()
-		if home == "/root" {
-			fmt.Println("You are using root privileges, please pass in custom config file path as a flag.")
-		}
-		fmt.Println(home)
-		cobra.CheckErr(err)
+		// // Find home directory.
+		// home, err := os.UserHomeDir()
+		// if home == "/root" {
+		// 	fmt.Println("You are using root privileges, please pass in custom config file path as a flag.")
+		// }
+		// fmt.Printf("Looking in home at '%s' for default config file\n", home)
+		// cobra.CheckErr(err)
 
-		// Search config in home directory with name ".webblock-cli" (without extension).
-		viper.AddConfigPath(home)
+		// // Search config in home directory with name ".webblock-cli" (without extension).
+		// viper.AddConfigPath(home)
+		// viper.SetConfigType("yaml")
+		// viper.SetConfigName(".webblock-cli")
+
+		// Find current directory.
+		currDir, err := os.Getwd()
+		cobra.CheckErr(err)
+		fmt.Printf("Looking in current directory at '%s' for default config file\n", currDir)
+
+		// Search config in current directory with name ".config.example" (without extension).
+		viper.AddConfigPath(currDir)
 		viper.SetConfigType("yaml")
-		viper.SetConfigName(".webblock-cli")
+		viper.SetConfigName(".config.example")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
