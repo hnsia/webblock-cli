@@ -35,15 +35,6 @@ var unblockCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(unblockCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// unblockCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// unblockCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	unblockCmd.PersistentFlags().StringP("hosts-file", "f", "/etc/hosts", "a custom hostfile path other than /etc/hosts")
 	unblockCmd.PersistentFlags().StringSliceP("sites", "s", []string{}, "sites to unblock")
 	unblockCmd.MarkFlagRequired("sites")
